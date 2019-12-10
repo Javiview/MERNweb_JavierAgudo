@@ -10,27 +10,29 @@ const bcryptSalt = 10;
 
 
 router.post('/signup', (req, res, next) => {
-  const { username, password, picture } = req.body
+  const {username, name, surname, email, password, picture } = req.body
+  
 
-  if (!username || !password) {
-    res.status(400).json({ message: 'Provide username and password' });
+  if (!username || !password || !name || !surname) {
+    res.status(400).json({ message: 'Nombre, apellido, email y contraseña son obligatorios' });
     return;
   }
 
   if (password.length < 2) {
-    res.status(400).json({ message: 'Please make your password at least 8 characters long for security purposes.' });
+    res.status(400).json({ message: 'Seleccione una contraseña mayor de 8 caracteres, por favor' });
     return;
   }
 
   User.findOne({ username }, (err, foundUser) => {
-
+   
     if (err) {
       res.status(500).json({ message: "Username check went bad." });
       return;
     }
 
     if (foundUser) {
-      res.status(400).json({ message: 'Username taken. Choose another one.' });
+      
+      res.status(400).json({ message: 'Email ya en uso, por favor seleccione otro' });
       return;
     }
 
@@ -38,13 +40,18 @@ router.post('/signup', (req, res, next) => {
     const hashPass = bcrypt.hashSync(password, salt);
 
     const newUser = new User({
-      username: username,
+      username,
+      name,
+      surname,
+      email,
       password: hashPass,
       picture
     });
-
+    
     newUser.save(err => {
+      
       if (err) {
+        
         res.status(400).json({ message: 'Saving user to database went wrong.' });
         return;
       }

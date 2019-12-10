@@ -10,8 +10,11 @@ export default class SignUp extends Component {
 
   state = {
     username: '',
+    name:'',
+    surname:'',
     password: '',
-    // picture: ''
+    //picture: '',
+    email:''
   }
 
   handleChange = (e) => {
@@ -53,13 +56,19 @@ export default class SignUp extends Component {
   }
 
   render() {
-    const { username, password, picture } = this.state;
+    const {username, name, surname, password, picture, email } = this.state;
     return (
       <div>
         <PageTitle>SignUp</PageTitle>
         <form onSubmit={this.handleSignUp}>
           <label htmlFor="username">Username: </label>
-          <input type="text" name="username" value={username} required onChange={this.handleChange}/>
+          <input type="text" name="username" value={username} onChange={this.handleChange}/>
+          <label htmlFor="name">Name: </label>
+          <input type="text" name="name" value={name} onChange={this.handleChange}/>
+          <label htmlFor="surname">Surname: </label>
+          <input type="text" name="surname" value={surname} onChange={this.handleChange}/>
+          <label htmlFor="email">E-mail: </label>
+          <input type="text" name="email" value={email} onChange={this.handleChange}/>
           <label htmlFor="password">Password: </label>
           <input type="password" value={password} name="password" required onChange={this.handleChange}/>
           <input type="file" name="picture" onChange={this.handleUpload}/>

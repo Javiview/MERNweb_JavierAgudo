@@ -10,7 +10,8 @@ export default class Login extends Component {
 
   state = {
     username: '',
-    password: ''
+    password: '',
+    
   }
   handleChange = (e) => {
     const { name, value } = e.target;
