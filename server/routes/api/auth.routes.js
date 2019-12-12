@@ -1,38 +1,44 @@
 const express = require("express");
-const passport = require('passport');
+const passport = require("passport");
 const router = express.Router();
 const User = require("../../models/User");
-const uploader = require('../../configs/cloudinary.config')
+const uploader = require("../../configs/cloudinary.config");
 
-// Bcrypt to encrypt passwords
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
 
+router.post("/signup", (req, res, next) => {
+  const { name, surname, email, password, picture } = req.body;
 
-router.post('/signup', (req, res, next) => {
-  const {username, name, surname, email, password, picture } = req.body
-  
-
-  if (!username || !password || !name || !surname) {
-    res.status(400).json({ message: 'Nombre, apellido, email y contraseña son obligatorios' });
+  if (!email || !name || !surname || !password) {
+    res
+      .status(400)
+      .json({
+        message: "Nombre, Apellido, Email y Contraseña son obligatorios"
+      });
     return;
   }
 
   if (password.length < 2) {
-    res.status(400).json({ message: 'Seleccione una contraseña mayor de 8 caracteres, por favor' });
+    res
+      .status(400)
+      .json({
+        message: "Seleccione una contraseña mayor de 8 caracteres, por favor"
+      });
     return;
   }
 
-  User.findOne({ username }, (err, foundUser) => {
-   
+  User.findOne({ email }, (err, foundUser) => {
+    console.log(foundUser);
     if (err) {
       res.status(500).json({ message: "Username check went bad." });
       return;
     }
 
     if (foundUser) {
-      
-      res.status(400).json({ message: 'Email ya en uso, por favor seleccione otro' });
+      res
+        .status(400)
+        .json({ message: "Email ya en uso, por favor seleccione otro" });
       return;
     }
 
@@ -40,28 +46,27 @@ router.post('/signup', (req, res, next) => {
     const hashPass = bcrypt.hashSync(password, salt);
 
     const newUser = new User({
-      username,
       name,
       surname,
       email,
       password: hashPass,
       picture
     });
-    
+
     newUser.save(err => {
-      
       if (err) {
-        
-        res.status(400).json({ message: 'Saving user to database went wrong.' });
+        console.log(err);
+        res
+          .status(400)
+          .json({ message: "Saving user to database went wrong." });
         return;
       }
 
       // Automatically log in user after sign up
       // .login() here is actually predefined passport method
-      req.login(newUser, (err) => {
-
+      req.login(newUser, err => {
         if (err) {
-          res.status(500).json({ message: 'Login after signup went bad.' });
+          res.status(500).json({ message: "Login after signup went bad." });
           return;
         }
 
@@ -73,12 +78,12 @@ router.post('/signup', (req, res, next) => {
   });
 });
 
-
-
-router.post('/login', (req, res, next) => {
-  passport.authenticate('local', (err, theUser, failureDetails) => {
+router.post("/login", (req, res, next) => {
+  passport.authenticate("local", (err, theUser, failureDetails) => {
     if (err) {
-      res.status(500).json({ message: 'Something went wrong authenticating user' });
+      res
+        .status(500)
+        .json({ message: "Something went wrong authenticating user" });
       return;
     }
 
@@ -90,9 +95,9 @@ router.post('/login', (req, res, next) => {
     }
 
     // save user in session
-    req.login(theUser, (err) => {
+    req.login(theUser, err => {
       if (err) {
-        res.status(500).json({ message: 'Session save went bad.' });
+        res.status(500).json({ message: "Session save went bad." });
         return;
       }
       // We are now logged in (that's why we can also send req.user)
@@ -101,29 +106,43 @@ router.post('/login', (req, res, next) => {
   })(req, res, next);
 });
 
-router.post('/logout', (req, res, next) => {
+router.post("/logout", (req, res, next) => {
   // req.logout() is defined by passport
   req.logout();
-  res.status(200).json({ message: 'Log out success!' });
+  res.status(200).json({ message: "Log out success!" });
 });
 
-
-router.get('/loggedin', (req, res, next) => {
+router.get("/loggedin", (req, res, next) => {
   // req.isAuthenticated() is defined by passport
   if (req.isAuthenticated()) {
     res.status(200).json(req.user);
     return;
   }
-  res.status(403).json({ message: 'Unauthorized' });
+  res.status(403).json({ message: "Unauthorized" });
 });
 
-router.post('/upload', uploader.single('picture'), (req, res) => {
-    console.log(req.file)
-  if(req.file){
-    res.status(200).json({secure_url: req.file.secure_url })
+router.post("/upload", uploader.single("picture"), (req, res) => {
+  console.log(req.file);
+  if (req.file) {
+    res.status(200).json({ secure_url: req.file.secure_url });
   } else {
-    res.status(500).json({ message: 'Something went wrong' });
+    res.status(500).json({ message: "Something went wrong" });
   }
-})
+});
+
+// //Social-Login: GOOGLE
+// router.get('/auth/google',
+//   passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
+
+// // GET /auth/google/callback
+// //   Use passport.authenticate() as route middleware to authenticate the
+// //   request.  If authentication fails, the user will be redirected back to the
+// //   login page.  Otherwise, the primary route function function will be called,
+// //   which, in this example, will redirect the user to the home page.
+// router.get('/auth/google/callback', 
+//   passport.authenticate('google', { failureRedirect: '/login' }),
+//   function(req, res) {
+//     res.redirect('/');
+//   });
 
 module.exports = router;

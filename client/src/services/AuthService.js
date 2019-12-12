@@ -2,7 +2,6 @@ import axios from 'axios';
 
 class AuthService {
   constructor() {
-    console.log(process.env.REACT_APP_API_URL)
     this.instance = axios.create({
       baseURL: `${process.env.REACT_APP_API_URL}/auth`,
       withCredentials: true    
@@ -33,8 +32,8 @@ class AuthService {
     .then(res => Promise.resolve(res.data))
     .catch(error => console.error(error))
   }
-  logout = (user) => {
-    return this.instance.get('/logout', user)
+  logout = () => {
+    return this.instance.post('/logout')
     .then(res => Promise.resolve(res.data))
     .catch(error => console.error(error))
   }

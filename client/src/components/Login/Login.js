@@ -9,7 +9,7 @@ export default class Login extends Component {
   }
 
   state = {
-    username: '',
+    email:'',
     password: '',
     
   }
@@ -33,13 +33,13 @@ export default class Login extends Component {
   }
 
   render() {
-    const { username, password } = this.state;
+    const { password, email } = this.state;
     return (
       <div>
         <PageTitle>Login</PageTitle>
         <form onSubmit={this.handleLogin}>
-          <label htmlFor="username">Username: </label>
-          <input type="text" name="username" value={username} onChange={this.handleChange}/>
+          <label htmlFor="email">Email: </label>
+          <input type="text" name="email" value={email} onChange={this.handleChange}/>
           <label htmlFor="password">Password: </label>
           <input type="password" name="password" value={password} onChange={this.handleChange}/>
 

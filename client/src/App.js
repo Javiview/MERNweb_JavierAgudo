@@ -1,11 +1,12 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
 import { Switch, Route } from 'react-router-dom';
 import Login from './components/Login/Login';
 import SignUp from './components/Signup/Signup';
 import AuthService from './services/AuthService';
 import PrivateRoute from './guards/PrivateRoute';
 import NavBar from './components/NavBar/NavBar';
+import Catalogue from './components/Catalogue/Catalogue';
 
 
 
@@ -39,6 +40,15 @@ class App extends React.Component {
         })
     }
   }
+  logout = () => {
+    this.authService
+      .logout()
+      .then(payload => {
+        this.setState({...this.state, user : null})
+
+      })
+      .catch(err => console.log(err));
+  };
 
   componentDidMount() {
     this.fetchUser()
@@ -50,13 +60,19 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
-        <NavBar></NavBar>
+        <NavBar {...user} logout={this.logout}></NavBar>
            <Switch>
-            <Route exact path="/login" render={(match) => <Login {...match} setUser={this.setUser} />} />  
-            <Route exact path="/signup" render={(match) => <SignUp {...match} setUser={this.setUser} />} />
+             
             {/* <PrivateRoute exact path="/" user={user}/> */}
           </Switch>
         </header>
+       <div>
+       <Route exact path="/login" render={(match) => <Login {...match} setUser={this.setUser} />} />
+
+<Route exact path="/signup" render={(match) => <SignUp {...match} setUser={this.setUser} />} />
+
+          <Route exact path="/catalogue" render={(match) => <Catalogue {...match}></Catalogue>} />
+          </div>
       </div>
     );
   }

@@ -1,0 +1,57 @@
+@charset "utf-8";
+// Import a Google Font
+@import url("https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,900&display=swap");
+// // Set your brand colors
+// $purple: #8a4d76;
+// $pink: #fa7c91;
+// $brown: #757763;
+// $beige-light: #d0d1cd;
+// $beige-lighter: #eff0eb;
+$blue: #3c5ac3;
+$yellow: #fcd303;
+// // Update Bulma's global variables
+// $family-sans-serif: 'Nunito', sans-serif;
+// $grey-dark: $brown;
+// $grey-light: $beige-light;
+// $primary: $purple;
+// $link: $pink;
+// $widescreen-enabled: false;
+// $fullhd-enabled: false;
+// // Update some of Bulma's component variables
+// $body-background-color: $beige-lighter;
+// $control-border-width: 2px;
+// $input-border-color: transparent;
+// $input-shadow: none;
+$primary: $yellow;
+$is-primary: $blue;
+$has-text-primary: $blue;
+// Import only what you need from Bulma
+@import "../node_modules/bulma/bulma.sass";
+
+.probando{
+    display: flex;
+    justify-content: center;
+    align-items: center;;
+    text-align: center;
+    margin-right: 10px;
+.prt{
+margin-right:5px;
+    }
+}
+
+.logo{
+    margin-right: 10px;
+    border-radius: 50%;
+    border: 1px solid #fcd303;
+    width: 1,5rem
+}
+
+.navbar-item img {
+    max-height: 3rem;
+}
+@media screen and (min-width: 1024px)
+{
+.container {
+    max-width: 500px;
+}
+}

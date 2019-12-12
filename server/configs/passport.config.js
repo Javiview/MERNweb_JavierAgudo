@@ -14,24 +14,32 @@ passport.deserializeUser((id, next) => {
 });
 
 passport.use(
-  new LocalStrategy((username, password, next) => {
-    User.findOne({ username }, (err, foundUser) => {
-      if (err) {
-        next(err);
-        return;
-      }
+  new LocalStrategy(
+    {
+      // by default, local strategy uses username and password, we will override with email
+      usernameField: "email",
+      passwordField: "password",
+      passReqToCallback: true // allows us to pass back the entire request to the callback
+    },
+    (req, email, password, next) => {
+      User.findOne({ email }, (err, foundUser) => {
+        if (err) {
+          next(err);
+          return;
+        }
 
-      if (!foundUser) {
-        next(null, false, { message: "Usuario no registrado." });
-        return;
-      }
+        if (!foundUser) {
+          next(null, false, { message: "Usuario no registrado." });
+          return;
+        }
 
-      if (!bcrypt.compareSync(password, foundUser.password)) {
-        next(null, false, { message: "Contraseña incorrecta." });
-        return;
-      }
+        if (!bcrypt.compareSync(password, foundUser.password)) {
+          next(null, false, { message: "Contraseña incorrecta." });
+          return;
+        }
 
-      next(null, foundUser);
-    });
-  })
+        next(null, foundUser);
+      });
+    }
+  )
 );
