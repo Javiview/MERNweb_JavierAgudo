@@ -52,7 +52,7 @@ export default class NavBar extends Component {
                   Catálogo
                 </Link>
 
-                <div className="navbar-item has-dropdown is-hoverable">
+                {/* <div className="navbar-item has-dropdown is-hoverable">
                   <a className="navbar-link">More</a>
 
                   <div className="navbar-dropdown">
@@ -62,7 +62,7 @@ export default class NavBar extends Component {
                     <hr className="navbar-divider" />
                     <a className="navbar-item">Report an issue</a>
                   </div>
-                </div>
+                </div> */}
               </div>
 
               <div className="navbar-end">

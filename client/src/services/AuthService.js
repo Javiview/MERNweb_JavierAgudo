@@ -27,7 +27,6 @@ class AuthService {
   }
 
   upload = (picture) => {
-    console.log("hi babe")
     return this.instance.post('/upload', picture)
     .then(res => Promise.resolve(res.data))
     .catch(error => console.error(error))

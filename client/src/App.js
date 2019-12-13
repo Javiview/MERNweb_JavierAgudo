@@ -1,14 +1,13 @@
-import React from 'react';
-import './App.scss';
-import { Switch, Route } from 'react-router-dom';
-import Login from './components/Login/Login';
-import SignUp from './components/Signup/Signup';
-import AuthService from './services/AuthService';
-import PrivateRoute from './guards/PrivateRoute';
-import NavBar from './components/NavBar/NavBar';
-import Catalogue from './components/Catalogue/Catalogue';
-
-
+import React from "react";
+import "./App.scss";
+import { Switch, Route } from "react-router-dom";
+import Login from "./components/Login/Login";
+import SignUp from "./components/Signup/Signup";
+import AuthService from "./services/AuthService";
+import PrivateRoute from "./guards/PrivateRoute";
+import NavBar from "./components/NavBar/NavBar";
+import Catalogue from "./components/Catalogue/Catalogue";
+import HangerProfile from "./components/HangerProfile/HangerProfile";
 
 class App extends React.Component {
   constructor(props) {
@@ -18,65 +17,81 @@ class App extends React.Component {
 
   state = {
     user: null
-  }
+  };
 
-  setUser = (user) => {
-    this.setState({ ...this.state, user })
-  }
+  setUser = user => {
+    this.setState({ ...this.state, user });
+  };
 
   fetchUser = () => {
     if (this.state.user === null) {
-      this.authService.loggedInUser()
+      this.authService
+        .loggedInUser()
         .then(
-          (user) => {
-            this.setUser(user)
+          user => {
+            this.setUser(user);
           },
-          (error) => {
-            this.setUser(false)
+          error => {
+            this.setUser(false);
           }
         )
         .catch(() => {
-          this.setUser(false)
-        })
+          this.setUser(false);
+        });
     }
-  }
+  };
   logout = () => {
     this.authService
       .logout()
       .then(payload => {
-        this.setState({...this.state, user : null})
-
+        this.setState({ ...this.state, user: null });
       })
       .catch(err => console.log(err));
   };
 
   componentDidMount() {
-    this.fetchUser()
+    this.fetchUser();
   }
 
   render() {
-    this.fetchUser()
+    this.fetchUser();
     const { user } = this.state;
     return (
       <div className="App">
         <header className="App-header">
-        <NavBar {...user} logout={this.logout}></NavBar>
-           <Switch>
-             
-            {/* <PrivateRoute exact path="/" user={user}/> */}
-          </Switch>
+          <NavBar {...user} logout={this.logout}></NavBar>
+          <Switch>{/* <PrivateRoute exact path="/" user={user}/> */}</Switch>
         </header>
-       <div>
-       <Route exact path="/login" render={(match) => <Login {...match} setUser={this.setUser} />} />
+        <div>
+          <Route
+            exact
+            path="/login"
+            render={match => <Login {...match} setUser={this.setUser} />}
+          />
 
-<Route exact path="/signup" render={(match) => <SignUp {...match} setUser={this.setUser} />} />
+          <Route
+            exact
+            path="/signup"
+            render={match => <SignUp {...match} setUser={this.setUser} />}
+          />
 
-          <Route exact path="/catalogue" render={(match) => <Catalogue {...match}></Catalogue>} />
-          </div>
+          <Route
+            exact
+            path="/catalogue"
+            render={match => <Catalogue {...match}></Catalogue>}
+            
+          />
+          <Route
+            exact
+            path="/catalogue/:id"
+            render={match => <HangerProfile {...match}></HangerProfile>}
+            
+          />
+          
+        </div>
       </div>
     );
   }
 }
 
 export default App;
-

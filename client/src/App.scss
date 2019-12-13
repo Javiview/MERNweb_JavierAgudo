@@ -53,5 +53,14 @@ margin-right:5px;
 {
 .container {
     max-width: 500px;
+    flex-grow: 0;
 }
+}
+.signup-container{
+    margin-top: 2rem
+}
+
+.wrap{
+    display: flex;
+    flex-wrap: wrap;
 }

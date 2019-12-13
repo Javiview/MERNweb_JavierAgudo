@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import PageTitle from "../../fontStyles/PageTitle";
 import AuthService from "../../services/AuthService";
+import { Link } from 'react-router-dom';
 
 export default class SignUp extends Component {
   constructor(props) {
@@ -56,7 +56,8 @@ export default class SignUp extends Component {
   render() {
     const { name, surname, password, email } = this.state;
     return (
-      <div className="container">
+      <div className="container box signup-container">
+        <h2 className="title is-1">Signup</h2>
         <div>
           <form onSubmit={this.handleSignUp}>
             <div className="field">
@@ -130,7 +131,7 @@ export default class SignUp extends Component {
                 <button className="button is-link">Crear cuenta</button>
               </div>
               <div className="control">
-                <button className="button is-link is-light">Cancelar</button>
+              <Link to="/" className="button is-link is-light">Cancelar</Link>
               </div>
             </div>
           </form>
