@@ -6,12 +6,27 @@ export default class Catalogue extends Component {
   constructor() {
     super();
     this.hangerService = new HangerService();
+    
     this.state = {
       hangers: []
     };
+    this.hangerCop = [this.state.hangers]
+  }
+  searchHanger(e){
+    e.preventDefault();
+    let hangers = [...this.hangerCop];
+    let hangersFound;
+   
+    hangersFound = hangers.filter((hanger) => hanger.name.toLowerCase().includes(e.target.value.toLowerCase())|| hanger.times.toLowerCase().includes(e.target.value.toLowerCase() ))
+   
+    this.setState({
+      ...this.state,
+      hangers: hangersFound
+    });
   }
   componentDidMount() {
     this.hangerService.readHangers().then(hangers => {
+      this.hangerCop = hangers
       this.setState({
         ...this.state,
         hangers: hangers
@@ -28,6 +43,7 @@ export default class Catalogue extends Component {
           type="text"
           name="search-bar"
           placeholder="🔎 Busqueda . . .  "
+          onChange={(e) => this.searchHanger(e)}
         />
         <div className="wrap">
           {hangers.map((hanger, idx) => {

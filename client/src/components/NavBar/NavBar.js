@@ -45,7 +45,7 @@ export default class NavBar extends Component {
             <div id="navbarBasicExample" className="navbar-menu">
               <div className="navbar-start">
                 <Link to="/" className="navbar-item">
-                  Home
+                  Inicio
                 </Link>
 
                 <Link to="/catalogue" className="navbar-item">
@@ -81,16 +81,19 @@ export default class NavBar extends Component {
                   )}
                   {this.props.name && (
                      <div className="navbar-item">
+                       
                     <div className="probando">
                     <span className="prt">{this.props.name}</span>
                     <span>{this.props.surname}</span>
                   </div>
+                  <Link to="/profile">
                   <img
                   className="logo"
                     src={this.props.picture}
                     alt={this.props.name}
 
                   />
+                  </Link>
                     <div className="buttons">
                       <Link
                         to="/logout"

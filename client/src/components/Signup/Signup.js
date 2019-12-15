@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import AuthService from "../../services/AuthService";
 import { Link } from 'react-router-dom';
+import { GoogleLogin } from 'react-google-login';
 
 export default class SignUp extends Component {
   constructor(props) {
@@ -12,7 +13,8 @@ export default class SignUp extends Component {
     name: "",
     surname: "",
     password: "",
-    email: ""
+    email: "",
+    token: ''
   };
 
   handleChange = e => {
@@ -136,7 +138,12 @@ export default class SignUp extends Component {
             </div>
           </form>
         </div>
-
+        <GoogleLogin
+                        clientId="XXXXXXXXXX"
+                        buttonText="Login"
+                        onSuccess={this.googleResponse}
+                        onFailure={this.googleResponse}
+                    />
         {/* <form onSubmit={this.handleSignUp}>
           <label htmlFor="name">Name: </label>
           <input type="text" name="name" value={name} onChange={this.handleChange}/>

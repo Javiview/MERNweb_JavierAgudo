@@ -8,6 +8,8 @@ import PrivateRoute from "./guards/PrivateRoute";
 import NavBar from "./components/NavBar/NavBar";
 import Catalogue from "./components/Catalogue/Catalogue";
 import HangerProfile from "./components/HangerProfile/HangerProfile";
+import UserProfile from "./components/UserProfile/UserProfile";
+import Footer from "./components/Footer/Footer";
 
 class App extends React.Component {
   constructor(props) {
@@ -60,35 +62,68 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <NavBar {...user} logout={this.logout}></NavBar>
-          <Switch>{/* <PrivateRoute exact path="/" user={user}/> */}</Switch>
         </header>
         <div>
-          <Route
-            exact
-            path="/login"
-            render={match => <Login {...match} setUser={this.setUser} />}
-          />
+          {!user && (
+            <Switch>
+              <Route
+                exact
+                path="/login"
+                render={match => <Login {...match} setUser={this.setUser} />}
+              />
 
-          <Route
-            exact
-            path="/signup"
-            render={match => <SignUp {...match} setUser={this.setUser} />}
-          />
+              <Route
+                exact
+                path="/signup"
+                render={match => <SignUp {...match} setUser={this.setUser} />}
+              />
 
-          <Route
-            exact
-            path="/catalogue"
-            render={match => <Catalogue {...match}></Catalogue>}
-            
-          />
-          <Route
-            exact
-            path="/catalogue/:id"
-            render={match => <HangerProfile {...match}></HangerProfile>}
-            
-          />
-          
+              <Route
+                exact
+                path="/catalogue"
+                render={match => <Catalogue {...match}></Catalogue>}
+              />
+              <Route
+                exact
+                path="/catalogue/:id"
+                render={match => <HangerProfile {...match}></HangerProfile>}
+              />
+            </Switch>
+          )}
+          {user && (
+            <Switch>
+              <PrivateRoute
+                exact
+                path="/profile"
+                user={user}
+                component={UserProfile}
+              />
+              <Route
+                exact
+                path="/login"
+                render={match => <Login {...match} setUser={this.setUser} />}
+              />
+
+              <Route
+                exact
+                path="/signup"
+                render={match => <SignUp {...match} setUser={this.setUser} />}
+              />
+
+              <Route
+                exact
+                path="/catalogue"
+                render={match => <Catalogue {...match}></Catalogue>}
+              />
+              <Route
+                exact
+                path="/catalogue/:id"
+                render={match => <HangerProfile {...match}></HangerProfile>}
+              />
+            </Switch>
+          )}
         </div>
+        <Footer></Footer>
       </div>
     );
   }
