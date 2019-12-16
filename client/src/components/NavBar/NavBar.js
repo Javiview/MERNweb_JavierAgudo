@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import AuthService from "../../services/AuthService";
+import { StickyContainer, Sticky } from 'react-sticky';
 var QRCode = require("qrcode.react");
 
 export default class NavBar extends Component {
@@ -10,13 +11,19 @@ export default class NavBar extends Component {
   }
 
   render() {
-    console.log(this.props);
 
     return (
       <React.Fragment>
-        <header>
-          <nav
-            className="navbar is-dark"
+        
+        {/* Other elements can be in between `StickyContainer` and `Sticky`,
+        but certain styles can break the positioning logic used. */}
+        <Sticky topOffset={180}>
+          {({
+            style,
+ 
+          }) => (
+          <nav style={style}
+            className="navbar is-dark main-navbar"
             role="navigation"
             aria-label="main navigation"
           >
@@ -66,34 +73,35 @@ export default class NavBar extends Component {
               </div>
 
               <div className="navbar-end">
-                
-                  {!this.props.name && (
-                     <div className="navbar-item">
+                {!this.props.name && (
+                  <div className="navbar-item">
                     <div className="buttons">
+                      
                       <Link to="/signup" className="button is-primary">
-                        <strong>Sign up</strong>
+                        <strong>Regístrate</strong>
                       </Link>
                       <Link to="/login" className="button is-light">
-                        Login
+                        Iniciar sesión
                       </Link>
                     </div>
                   </div>
-                  )}
-                  {this.props.name && (
-                     <div className="navbar-item">
-                       
+                )}
+                {this.props.name && (
+                  <div className="navbar-item">
+                    <Link to="/cart" className="shop-cart-logo">
+                        <img src="https://res.cloudinary.com/dexfqvxax/image/upload/v1576486235/ResourcesIMPERIO/Cart_imperio_v6awzb.png" alt=""/>
+                      </Link>
                     <div className="probando">
-                    <span className="prt">{this.props.name}</span>
-                    <span>{this.props.surname}</span>
-                  </div>
-                  <Link to="/profile">
-                  <img
-                  className="logo"
-                    src={this.props.picture}
-                    alt={this.props.name}
-
-                  />
-                  </Link>
+                      <span className="prt">{this.props.name}</span>
+                      <span>{this.props.surname}</span>
+                    </div>
+                    <Link to="/profile">
+                      <img
+                        className="logo"
+                        src={this.props.picture}
+                        alt={this.props.name}
+                      />
+                    </Link>
                     <div className="buttons">
                       <Link
                         to="/logout"
@@ -103,30 +111,16 @@ export default class NavBar extends Component {
                         Logout
                       </Link>
                     </div>
-                    </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
+            </div>
             {/* </div> */}
           </nav>
-          {/* <nav>
-            {!user && (
-              <div>
-                <Link to="/login">Login</Link>
-                <Link to="/signup">Signup</Link>
-              </div>
-            )}
-            {user && (
-              <div>
-              <Link to="/catalogue">Catalogue</Link>
-              <Link to="/" onClick={e => this.props.logout(e)}>
-                Logout
-              </Link>
-              </div>
-            )}
-            <QRCode value="https://github.com/Javiview" />
-          </nav> */}
-        </header>
+        )}
+        </Sticky>
+        
+      
       </React.Fragment>
     );
   }

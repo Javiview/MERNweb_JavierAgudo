@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.scss";
 import { Switch, Route } from "react-router-dom";
+import { StickyContainer, Sticky } from "react-sticky";
 import Login from "./components/Login/Login";
 import SignUp from "./components/Signup/Signup";
 import AuthService from "./services/AuthService";
@@ -10,6 +11,8 @@ import Catalogue from "./components/Catalogue/Catalogue";
 import HangerProfile from "./components/HangerProfile/HangerProfile";
 import UserProfile from "./components/UserProfile/UserProfile";
 import Footer from "./components/Footer/Footer";
+import BannerMainPage from "./components/BannerMainPage/BannerMainPage";
+import Cart from "./components/Cart/Cart";
 
 class App extends React.Component {
   constructor(props) {
@@ -18,7 +21,8 @@ class App extends React.Component {
   }
 
   state = {
-    user: null
+    user: null,
+    hangersToCart: []
   };
 
   setUser = user => {
@@ -51,78 +55,107 @@ class App extends React.Component {
       .catch(err => console.log(err));
   };
 
+  goToCart = item => {
+    const items = [...this.state.hangersToCart];
+    items.push(item);
+
+    this.setState({
+      ...this.state,
+      hangersToCart: items
+    });
+  };
+
   componentDidMount() {
     this.fetchUser();
   }
 
   render() {
     this.fetchUser();
-    const { user } = this.state;
+    const { user, hangersToCart } = this.state;
+    console.log(hangersToCart);
+
     return (
       <div className="App">
-        <header className="App-header">
-          <NavBar {...user} logout={this.logout}></NavBar>
-        </header>
-        <div>
-          {!user && (
-            <Switch>
-              <Route
-                exact
-                path="/login"
-                render={match => <Login {...match} setUser={this.setUser} />}
-              />
+        <StickyContainer>
+          <header className="App-header">
+            <BannerMainPage />
+            <NavBar {...user} logout={this.logout}></NavBar>
+          </header>
 
-              <Route
-                exact
-                path="/signup"
-                render={match => <SignUp {...match} setUser={this.setUser} />}
-              />
+          <div>
+            {!user && (
+              <Switch>
+                <Route
+                  exact
+                  path="/login"
+                  render={match => <Login {...match} setUser={this.setUser} />}
+                />
 
-              <Route
-                exact
-                path="/catalogue"
-                render={match => <Catalogue {...match}></Catalogue>}
-              />
-              <Route
-                exact
-                path="/catalogue/:id"
-                render={match => <HangerProfile {...match}></HangerProfile>}
-              />
-            </Switch>
-          )}
-          {user && (
-            <Switch>
-              <PrivateRoute
-                exact
-                path="/profile"
-                user={user}
-                component={UserProfile}
-              />
-              <Route
-                exact
-                path="/login"
-                render={match => <Login {...match} setUser={this.setUser} />}
-              />
+                <Route
+                  exact
+                  path="/signup"
+                  render={match => <SignUp {...match} setUser={this.setUser} />}
+                />
 
-              <Route
-                exact
-                path="/signup"
-                render={match => <SignUp {...match} setUser={this.setUser} />}
-              />
+                <Route
+                  exact
+                  path="/catalogue"
+                  render={match => <Catalogue {...match}></Catalogue>}
+                />
+                <Route
+                  exact
+                  path="/catalogue/:id"
+                  render={match => <HangerProfile {...match}></HangerProfile>}
+                />
+              </Switch>
+            )}
+            {user && (
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/profile"
+                  user={user}
+                  component={UserProfile}
+                />
+                <PrivateRoute
+                  exact
+                  path="/cart"
+                  user={user}
+                  component={Cart}
+                  hangers={hangersToCart}
+                />
+                <Route
+                  exact
+                  path="/login"
+                  render={match => <Login {...match} setUser={this.setUser} />}
+                />
 
-              <Route
-                exact
-                path="/catalogue"
-                render={match => <Catalogue {...match}></Catalogue>}
-              />
-              <Route
-                exact
-                path="/catalogue/:id"
-                render={match => <HangerProfile {...match}></HangerProfile>}
-              />
-            </Switch>
-          )}
-        </div>
+                <Route
+                  exact
+                  path="/signup"
+                  render={match => <SignUp {...match} setUser={this.setUser} />}
+                />
+
+                <Route
+                  exact
+                  path="/catalogue"
+                  render={match => <Catalogue {...match}></Catalogue>}
+                />
+                <Route
+                  exact
+                  path="/catalogue/:id"
+                  render={match => (
+                    <HangerProfile
+                      {...match}
+                      user={user}
+                      goToCart={this.goToCart}
+                    ></HangerProfile>
+                  )}
+                />
+              </Switch>
+            )}
+          </div>
+        </StickyContainer>
         <Footer></Footer>
       </div>
     );

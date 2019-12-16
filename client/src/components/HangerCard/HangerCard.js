@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export default class HangerCard extends Component {
     render() {
         console.log(this.props)
-        const { name, colors, images, type, _id } = this.props
+        const { name, colors, images, type, _id, goToCart } = this.props
         const url = `/catalogue/${_id}`
         return (
             
@@ -15,6 +15,7 @@ export default class HangerCard extends Component {
                 <h2>{name}</h2>
                 <h3>{type}</h3>
                 </Link>
+                
             </div>
             
         )

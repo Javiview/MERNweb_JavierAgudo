@@ -1,0 +1,10 @@
+.banner-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden
+}
+.banner-container img{
+    min-width: 100%;
+    min-height: 100%
+}

@@ -27,28 +27,13 @@ $is-primary: $blue;
 $has-text-primary: $blue;
 // Import only what you need from Bulma
 @import "../node_modules/bulma/bulma.sass";
+@import "../src/components/NavBar/_NavBar.scss";
+@import "../src/components/BannerMainPage/_BannerMainPage.scss";
 
-.probando{
-    display: flex;
-    justify-content: center;
-    align-items: center;;
-    text-align: center;
-    margin-right: 10px;
-.prt{
-margin-right:5px;
-    }
-}
 
-.logo{
-    margin-right: 10px;
-    border-radius: 50%;
-    border: 1px solid #fcd303;
-    width: 1,5rem
-}
 
-.navbar-item img {
-    max-height: 3rem;
-}
+
+
 @media screen and (min-width: 1024px)
 {
 .container {

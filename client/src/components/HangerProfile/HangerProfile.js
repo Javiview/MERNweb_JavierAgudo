@@ -6,6 +6,7 @@ export default class HangerProfile extends Component {
     super(props);
     this.hangerService = new HangerService();
     this.state = {
+      
       hanger: []
     };
   }
@@ -24,12 +25,14 @@ export default class HangerProfile extends Component {
   }
 
   render() {
-    console.log(this.props.match.params.id);
-    console.log(this.state.hanger)
+   const { user } = this.props
     return (
       <div>
         <h1>HangerProfile</h1>
         <h2>{this.state.hanger.name}</h2>
+        {user &&
+        <button className="button is-rounded" onClick={()=>this.props.goToCart(this.state.hanger)}>+</button>
+        }
       </div>
     );
   }
