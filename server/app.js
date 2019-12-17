@@ -56,13 +56,11 @@ app.use(session({
 }))
 app.use(passport.initialize())
 app.use(passport.session())
-    
-const index = require('./routes');
-app.use('/', index);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
-
+const index = require('./routes');
+app.use('/', index);
 
 module.exports = app;
