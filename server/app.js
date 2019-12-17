@@ -58,7 +58,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 const index = require('./routes');
 app.use('/', index);
