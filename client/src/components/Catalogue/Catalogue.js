@@ -29,7 +29,7 @@ export default class Catalogue extends Component {
   
   componentDidMount() {
     this.hangerService.readHangers().then(hangers => {
-      //this.hangerCop = hangers
+      this.hangerCop = hangers
       this.setState({
         ...this.state,
         hangers: hangers

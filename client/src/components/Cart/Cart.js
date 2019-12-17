@@ -45,7 +45,11 @@ export default class Cart extends Component {
   render() {
     const { shopItems } = this.state;
     return (
+        
       <div>
+          {shopItems.length === 0 &&
+        <h1>VACIO</h1>}
+        
         {shopItems.map((hanger, idx) => {
           return (
             <div key={idx}>

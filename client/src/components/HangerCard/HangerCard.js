@@ -10,6 +10,7 @@ export default class HangerCard extends Component {
         return (
             
             <div className="container box">
+                
                 <Link to={url}>
                 <img width="100px" src={images[0]} alt={name}/>
                 <h2>{name}</h2>
