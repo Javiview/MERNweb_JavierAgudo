@@ -13,6 +13,8 @@ import UserProfile from "./components/UserProfile/UserProfile";
 import Footer from "./components/Footer/Footer";
 import BannerMainPage from "./components/BannerMainPage/BannerMainPage";
 import Cart from "./components/Cart/Cart";
+import Home from "./components/Home/Home";
+
 
 class App extends React.Component {
   constructor(props) {
@@ -64,9 +66,22 @@ class App extends React.Component {
       hangersToCart: items
     });
   };
+  deleteHangerInCart(id) {
+    let hangerToCartCopy = [...this.state.hangersToCart]
+    let resultHangerToCart = hangerToCartCopy.filter((hanger) => !hanger._id.includes(id))
+    
+    this.setState({
+        ...this.state,
+        hangersToCart: resultHangerToCart
+    })
+
+}
 
   componentDidMount() {
     this.fetchUser();
+  }
+  componentDidUpdate(){
+    console.log(this.state.hangersToCart)
   }
 
   render() {
@@ -81,10 +96,14 @@ class App extends React.Component {
             <BannerMainPage />
             <NavBar {...user} logout={this.logout}></NavBar>
           </header>
-
           <div>
             {!user && (
               <Switch>
+                <Route
+                  exact
+                  path="/"
+                  render={match => <Home {...match}/>}
+                />
                 <Route
                   exact
                   path="/login"
@@ -123,6 +142,12 @@ class App extends React.Component {
                   user={user}
                   component={Cart}
                   hangers={hangersToCart}
+                  deleteHangerInCart={(id) => this.deleteHangerInCart(id)}
+                />
+                <Route
+                  exact
+                  path="/"
+                  render={match => <Home {...match}/>}
                 />
                 <Route
                   exact

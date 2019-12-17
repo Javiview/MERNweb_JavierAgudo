@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import AuthService from "../../services/AuthService";
 import { StickyContainer, Sticky } from 'react-sticky';
+import './_NavBar.scss'
 var QRCode = require("qrcode.react");
 
 export default class NavBar extends Component {

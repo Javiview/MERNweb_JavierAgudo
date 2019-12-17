@@ -1,0 +1,12 @@
+.cart-card-container{
+ background: rgba($color: #646262, $alpha: .2);
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ border-radius: 100px;
+
+}
+
+.delete:hover{
+    background: rgba($color: #e2c20e, $alpha: .5);
+}

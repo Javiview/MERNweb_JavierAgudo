@@ -1,10 +1,10 @@
 import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
-export default function PrivateRoute({component: Component, hangers, user, redirectPath, ...rest}) {
+export default function PrivateRoute({component: Component, hangers, deleteHangerInCart, user, redirectPath, ...rest}) {
   return (
    <Route {...rest} render={(props) => {
     {if(user) {
-      return <Component loggedInUser={user} {...props} hangers={hangers}/>
+      return <Component loggedInUser={user} {...props} hangers={hangers} deleteHangerInCart={deleteHangerInCart}/>
      } else {
        return <Redirect to={{pathname: redirectPath}}/>
      }

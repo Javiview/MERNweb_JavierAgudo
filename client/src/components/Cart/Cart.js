@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import CartService from "../../services/CartService";
 import HangerService from "../../services/HangerService";
-import { HangerInCart } from "./HangerInCart";
+import HangerInCart from "./HangerInCart";
+import "./_Cart.scss";
 
 export default class Cart extends Component {
   constructor(props) {
@@ -10,57 +11,62 @@ export default class Cart extends Component {
     this.hangerService = new HangerService();
 
     this.state = {
-      shopItems: [],
-      dateStart: null,
-      dateFinish: null,
+      shopItems: this.props.hangers,
+      dateStart: 2019-10-12,
+      dateFinish: 2019-10-20,
       days: 0,
       totalPrice: 0,
       open: true
     };
   }
   deleteHangerInCart(id) {
-      let shopItemsCopy = [...this.state.shopItems]
-      let resultShopItems = shopItemsCopy.filter((hanger) => !hanger._id.includes(id))
-      this.setState({
-          ...this.state,
-          shopItems: resultShopItems
-      })
+    this.props.deleteHangerInCart(id);
   }
-  componentDidMount() {
-    let arr = [];
+  sumTotalPrice(){
+    let counter = 0
     this.props.hangers.forEach(hanger => {
-      arr.push(hanger);
+      counter += hanger.price
     });
-    this.setState({
-        ...this.state,
-        shopItems: arr
-    })
-    
+    return counter
   }
-  componentDidUpdate(){
-    console.log(this.state.shopItems)
-
+  sumDays(){
+    let dy =  this.state.dateStart - this.state.dateFinish
+    return dy
   }
-
   render() {
-    const { shopItems } = this.state;
+    const { hangers } = this.props;
+    const { totalPrice, days } = this.state
     return (
-        
-      <div>
-          {shopItems.length === 0 &&
-        <h1>VACIO</h1>}
-        
-        {shopItems.map((hanger, idx) => {
-          return (
-            <div key={idx}>
-              <HangerInCart
-                {...hanger}
-                deleteHangerInCart={(id) => this.deleteHangerInCart(id)}
-              ></HangerInCart>
-            </div>
-          );
-        })}
-      </div>
+      <React.Fragment>
+        {hangers.length === 0 && (
+          <div className="container box">
+            <img
+              src="https://res.cloudinary.com/dexfqvxax/image/upload/v1576596014/ResourcesIMPERIO/empty-cart-IMP_af6ktk.png"
+              alt="Empty-Cart"
+            />
+          </div>
+        )}
+        {hangers.length > 0 && (
+          <div className="container box">
+            {hangers.map((hanger, idx) => {
+              return (
+                <HangerInCart
+                  key={idx}
+                  {...hanger}
+                  deleteHangerInCart={id => this.deleteHangerInCart(id)}
+                  printHangersInCart={() => this.printHangersInCart()}
+                ></HangerInCart>
+              );
+            })}
+            <label htmlFor="fecha-inicio">Desde:</label>
+            <input type="date"/>
+            <label htmlFor="fecha-final">Hasta:</label>
+            <input type="date"/>
+            <h1>Total/día: {this.sumTotalPrice()}</h1>
+            <h2>Días: {this.sumDays()}</h2>
+          </div>
+        )}
+      </React.Fragment>
     );
   }
 }

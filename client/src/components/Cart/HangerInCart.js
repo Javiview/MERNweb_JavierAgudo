@@ -1,16 +1,42 @@
 import React, { Component } from "react";
+import { confirmAlert } from "react-confirm-alert"; // Import
+import "react-confirm-alert/src/react-confirm-alert.css";
 
-export function HangerInCart(props) {
-  const { name, images, price, _id, deleteHangerInCart } = props;
-  console.log(props);
-  return (
-    <React.Fragment>
-      <div className="container box is-rounder">
-        <img src={images[0]} width="60px" alt={name} />
-        <h1>{name}</h1>
-        <h2>Precio por dia: {price} €</h2>
-        <button onClick={() => deleteHangerInCart(_id)}>Delete</button>
-      </div>
-    </React.Fragment>
-  );
+export default class HangerInCart extends Component {
+  delete() {
+    confirmAlert({
+      title: "¿Estas seguro?",
+      message: "¿Deseas eliminarlo de tu carrito?",
+      buttons: [
+        {
+          label: "Si",
+          onClick: () => this.props.deleteHangerInCart(this.props._id)
+        },
+        {
+          label: "No"
+        }
+      ]
+    });
+  }
+  render() {
+    const { name, images, price,} = this.props;
+    return (
+      <React.Fragment>
+        <div className="container box cart-card-container">
+          <img src={images[0]} className="" width="60px" alt={name} />
+          <h1 className="subtitle has-text-centered">{name}</h1>
+          <h2 className="">{price} €/día</h2>
+
+          <button
+            class="delete is-large"
+            onClick={() => {
+              this.delete();
+            }}
+          >
+            Delete
+          </button>
+        </div>
+      </React.Fragment>
+    );
+  }
 }
