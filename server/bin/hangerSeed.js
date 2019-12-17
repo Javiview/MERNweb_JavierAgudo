@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const Hanger = require("../models/Hanger");
 
 mongoose
-  .connect(process.env.DB_URL_ATLAS + process.env.DB_NAME, {
+  .connect(process.env.DB_URL_ATLAS, {
     useNewUrlParser: true
   })
   .then(x => {

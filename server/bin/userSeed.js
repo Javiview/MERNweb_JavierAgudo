@@ -10,7 +10,7 @@ const User = require("../models/User");
 const bcryptSalt = 10;
 
 mongoose
-  .connect(process.env.DB_URL_ATLAS + process.env.DB_NAME, {
+  .connect(process.env.DB_URL_ATLAS, {
     useNewUrlParser: true
   })
   .then(x => {
