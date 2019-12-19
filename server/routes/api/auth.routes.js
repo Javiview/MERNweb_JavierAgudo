@@ -29,7 +29,6 @@ router.post("/signup", (req, res, next) => {
   }
 
   User.findOne({ email }, (err, foundUser) => {
-    console.log(foundUser);
     if (err) {
       res.status(500).json({ message: "Username check went bad." });
       return;

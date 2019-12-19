@@ -3,7 +3,9 @@ import axios from "axios";
 class HangerService {
   constructor() {
     this.instance = axios.create({
-      baseURL: `${process.env.REACT_APP_API_URL}/hangers`
+      baseURL: `${process.env.REACT_APP_API_URL}/hangers`,
+      withCredentials: true    
+
     });
   }
   createHanger = () => {

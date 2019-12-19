@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import HangerService from "../../services/HangerService";
 import HangerCard from "../HangerCard/HangerCard";
 import './_Catalogue.scss'
+import BackBtn from "../BackBtn/BackBtn";
 
 export default class Catalogue extends Component {
   constructor() {
@@ -41,6 +42,7 @@ export default class Catalogue extends Component {
 
     return (
       <React.Fragment>
+        <BackBtn {...this.props}/>
         <h2 className="title is-1 has-text-centered">💶Catálogo💷</h2>
         <div className="container search-bar-container">
         <input

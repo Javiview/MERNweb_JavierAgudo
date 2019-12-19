@@ -1,12 +1,23 @@
-.cart-card-container{
- background: rgba($color: #646262, $alpha: .2);
- display: flex;
- justify-content: center;
- align-items: center;
- border-radius: 100px;
-
+.cart-card-container {
+  background: rgba($color: #646262, $alpha: 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
 }
 
-.delete:hover{
-    background: rgba($color: #e2c20e, $alpha: .5);
+.delete:hover {
+  background: rgba($color: #e2c20e, $alpha: 0.5);
+}
+.image-cart {
+  border-radius: 50%;
+}
+.cart-form {
+  display: flex;
+  color: white;
+}
+.cart-form-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

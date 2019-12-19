@@ -20,15 +20,17 @@ export default class HangerInCart extends Component {
   }
   render() {
     const { name, images, price,} = this.props;
+    console.log(this.props)
     return (
       <React.Fragment>
         <div className="container box cart-card-container">
-          <img src={images[0]} className="" width="60px" alt={name} />
+          
+          <img src={images[0]} className="image-cart" width="60px" alt={name} />
           <h1 className="subtitle has-text-centered">{name}</h1>
           <h2 className="">{price} €/día</h2>
 
           <button
-            class="delete is-large"
+            className ="delete is-large"
             onClick={() => {
               this.delete();
             }}
