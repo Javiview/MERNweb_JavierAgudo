@@ -14,17 +14,21 @@ import Footer from "./components/Footer/Footer";
 import BannerMainPage from "./components/BannerMainPage/BannerMainPage";
 import Cart from "./components/Cart/Cart";
 import Home from "./components/Home/Home";
+import JustRent from "./components/JustRent/JustRent";
+import CartService from "./services/CartService";
 
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.authService = new AuthService();
+    this.cartService = new CartService
   }
 
   state = {
     user: null,
-    hangersToCart: []
+    hangersToCart: [],
+    num: 0
   };
 
   setUser = user => {
@@ -57,6 +61,20 @@ class App extends React.Component {
       .catch(err => console.log(err));
   };
 
+  updateNumCart = () => {
+    this.cartService
+    .userCart()
+    .then(cart => {
+      this.setState({
+        ...this.state,
+        num: cart.shopItems.length});
+    })
+    .catch((err)=>console.log(err))
+  }
+
+  cartRented=()=>{
+    this.setState({...this.state,num:0})
+  }
   goToCart = item => {
     const items = [...this.state.hangersToCart];
     items.push(item);
@@ -79,6 +97,8 @@ class App extends React.Component {
 
   componentDidMount() {
     this.fetchUser();
+    this.updateNumCart()
+
   }
   componentDidUpdate(){
     console.log(this.state.hangersToCart)
@@ -88,13 +108,14 @@ class App extends React.Component {
     this.fetchUser();
     const { user, hangersToCart } = this.state;
     console.log(hangersToCart);
+    console.log(this.state.num)
 
     return (
       <div className="App">
         <StickyContainer>
           <header className="App-header">
             <BannerMainPage />
-            <NavBar {...user} logout={this.logout}></NavBar>
+            <NavBar {...user} numCart={this.state.num}logout={this.logout}></NavBar>
           </header>
           <div>
             {!user && (
@@ -142,7 +163,15 @@ class App extends React.Component {
                   user={user}
                   component={Cart}
                   hangers={hangersToCart}
+                  cartRented={()=>this.cartRented()}
+                  updateNumCart={()=>this.updateNumCart()}
                   deleteHangerInCart={(id) => this.deleteHangerInCart(id)}
+
+                />
+                <Route
+                  exact
+                  path="/justrent"
+                  render={match => <JustRent {...match} />}
                 />
                 <Route
                   exact
@@ -173,6 +202,7 @@ class App extends React.Component {
                     <HangerProfile
                       {...match}
                       user={user}
+                      updateNumCart={this.updateNumCart}
                       goToCart={this.goToCart}
                     ></HangerProfile>
                   )}

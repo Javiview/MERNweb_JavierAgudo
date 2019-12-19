@@ -5,18 +5,40 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 export default class HangerInCart extends Component {
   delete() {
     confirmAlert({
-      title: "¿Estas seguro?",
-      message: "¿Deseas eliminarlo de tu carrito?",
-      buttons: [
-        {
-          label: "Si",
-          onClick: () => this.props.deleteHangerInCart(this.props._id)
-        },
-        {
-          label: "No"
-        }
-      ]
+      customUI: ({ onClose }) => {
+        return (
+          <div className='notification is-warning box'>
+            <h1 className="is-size-6">¿Estás seguro?</h1>
+            <p className="text-noti is-size-4">¿Deaseas eliminarlo de tu carrito?</p>
+            <div className="btn-container-cart">
+            <button className="button is-dark" onClick={onClose}>No</button>
+            <button className="button is-light btn-yes"
+              onClick={() => {
+                this.props.deleteHangerInCart(this.props._id)
+                onClose()
+              }}
+            >
+              Si, Borralo!
+            </button>
+            </div>
+            
+          </div>
+        );
+      }
     });
+    // confirmAlert({
+    //   title: "¿Estas seguro?",
+    //   message: "¿Deseas eliminarlo de tu carrito?",
+    //   buttons: [
+    //     {
+    //       label: "Si",
+    //       onClick: () => this.props.deleteHangerInCart(this.props._id)
+    //     },
+    //     {
+    //       label: "No"
+    //     }
+    //   ]
+    // });
   }
   render() {
     const { name, images, price,} = this.props;

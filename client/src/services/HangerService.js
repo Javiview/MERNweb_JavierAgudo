@@ -4,8 +4,7 @@ class HangerService {
   constructor() {
     this.instance = axios.create({
       baseURL: `${process.env.REACT_APP_API_URL}/hangers`,
-      withCredentials: true    
-
+      withCredentials: true
     });
   }
   createHanger = () => {
@@ -19,15 +18,25 @@ class HangerService {
     return this.instance
       .get("/")
       .then(res => {
-          return Promise.resolve(res.data)})
+        return Promise.resolve(res.data);
+      })
       .catch(error => console.error(error));
   };
-  profileHanger = (id) => {
+  profileHanger = id => {
     return this.instance
       .get(`/${id}`)
       .then(res => {
-          
-          return Promise.resolve(res.data)})
+        return Promise.resolve(res.data);
+      })
+      .catch(error => console.error(error));
+  };
+  updateHanger = hangers => {
+    console.log(hangers);
+    return this.instance
+      .put("/update", {hangers})
+      .then(res => {
+        return Promise.resolve(res.data);
+      })
       .catch(error => console.error(error));
   };
 }

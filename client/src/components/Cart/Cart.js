@@ -38,19 +38,22 @@ export default class Cart extends Component {
       .userCart()
       .then(cart => {
         console.log(cart);
-        if(cart.shopItems != null){
-        let hangers = cart.shopItems;
-        let cartId = cart._id;
-        this.setState({
-          ...this.state,
-          hangers: hangers,
-          cartId: cartId
-        });}
+        if (cart.shopItems != null) {
+          let hangers = cart.shopItems;
+          let cartId = cart._id;
+          this.setState({
+            ...this.state,
+            hangers: hangers,
+            cartId: cartId
+          });
+        }
       })
       .catch(err => console.log(err));
   }
   deleteHangerInCart(id) {
-    this.cartService.delItemFromCart(id).then(cart => {
+    this.cartService.delItemFromCart(id)
+    .then(cart => {
+      this.props.updateNumCart()
       let hangers = cart.shopItems;
       this.setState({
         ...this.state,
@@ -97,7 +100,7 @@ export default class Cart extends Component {
     }
   }
   save(e) {
-    e.preventDefault()
+    e.preventDefault();
     confirmAlert({
       title: "¿Estas seguro?",
       message: "¿Deseas alquilar todos los articulos de tu carrito?",
@@ -114,9 +117,15 @@ export default class Cart extends Component {
   }
   saveCart() {
     this.cartService.updateCart(this.state)
-    .then(()=>{
-      this.state = this.initState
+    .then(() => {
+      this.hangerService.updateHanger(this.state.hangers);
     })
+    .then(()=>{
+      this.state = this.initState;
+      this.props.cartRented()
+      this.props.history.push("/justrent");
+    })
+   
   }
   componentDidMount() {
     this.sumTotalPrice();
@@ -133,7 +142,7 @@ export default class Cart extends Component {
       <React.Fragment>
         {hangers.length === 0 && (
           <div className="container box">
-            <BackBtn {...this.props}/>
+            <BackBtn {...this.props} />
             <img
               src="https://res.cloudinary.com/dexfqvxax/image/upload/v1576596014/ResourcesIMPERIO/empty-cart-IMP_af6ktk.png"
               alt="Empty-Cart"
@@ -142,7 +151,7 @@ export default class Cart extends Component {
         )}
         {hangers.length > 0 && (
           <div className="container box">
-            <BackBtn {...this.props}/>
+            <BackBtn {...this.props} />
             {hangers.map((hanger, idx) => {
               return (
                 <HangerInCart
@@ -179,7 +188,7 @@ export default class Cart extends Component {
                 <button
                   type="button"
                   className="button is-warning"
-                  onClick={(e) => {
+                  onClick={e => {
                     this.save(e);
                   }}
                 >

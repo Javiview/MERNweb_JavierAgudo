@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import HangerService from "../../services/HangerService";
 import CartService from "../../services/CartService";
 import BackBtn from "../BackBtn/BackBtn";
+import "./_HangerProfile.scss";
 
 export default class HangerProfile extends Component {
   constructor(props) {
@@ -9,7 +10,8 @@ export default class HangerProfile extends Component {
     this.hangerService = new HangerService();
     this.cartService = new CartService();
     this.state = {
-      hanger: []
+      hanger: [],
+      rented: false
     };
   }
   searchHanger() {
@@ -19,33 +21,56 @@ export default class HangerProfile extends Component {
   funCart() {
     this.hangerService
       .profileHanger(this.props.match.params.id)
-      .then(hanger => this.cartService.pruebaCart(hanger))
-      .then(data => console.log(data))
+      .then(hanger =>
+        this.cartService
+          .pruebaCart(hanger)
+          .then(data => {
+            this.props.updateNumCart();
+            this.setState({ ...this.state, rented: true });
+          })
+          .catch(err => console.log(err))
+      )
       .catch(err => console.log(err));
   }
+
   componentDidMount() {
     this.hangerService.profileHanger(this.searchHanger()).then(hanger => {
+      let hangerr = JSON.parse(JSON.stringify(hanger));
+      console.log(hangerr);
       this.setState({
         ...this.state,
-        hanger: hanger
+        hanger: hangerr
       });
     });
   }
 
   render() {
     const { user } = this.props;
-
+    const { images, name, type, subType, colors, price } = this.state.hanger;
+    const condition = user && !this.state.rented;
     return (
-      <div>
+      <React.Fragment>
         <BackBtn {...this.props} />
-        <h1>HangerProfile</h1>
-        <h2>{this.state.hanger.name}</h2>
-        {user && (
-          <button className="button is-rounded" onClick={() => this.funCart()}>
-            +
-          </button>
-        )}
-      </div>
+        <div className="container box profile-hanger-container">
+          <img src={images} alt={name} />
+          <h2 className="is-size-4 has-text-centered">{name}</h2>
+          <h3>
+            {type} - {subType}
+          </h3>
+          <h4>{colors}</h4>
+          <h5>{price} €/día</h5>
+          {condition && (
+            <button
+              className="button is-warning is-rounded"
+              onClick={() => this.funCart()}
+            >
+              Añadir al Carrito
+            </button>
+          )}
+
+          {this.state.rented ? <p className="notification is-success is-size-5 has-text-centered">!Añadido al Carrito!</p> : null}
+        </div>
+      </React.Fragment>
     );
   }
 }

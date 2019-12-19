@@ -9,14 +9,13 @@ router.post("/cambiar", (req, res, next) => {
   let { shopItems } = req.body;
 
   Cart.findOne({ createdBy: req.user.id, open: true }, (err, foundCart) => {
-    console.log(foundCart);
     if (foundCart) {
       Cart.findByIdAndUpdate(
         foundCart._id,
         { $push: { shopItems: req.body } },
         { new: true }
       )
-        .then(updatedCart => console.log("updated" + updatedCart))
+        .then(updatedCart => res.status(200).json(updatedCart))
         .catch(err => console.log(err));
       return;
     }
@@ -109,7 +108,6 @@ router.put("/:id", (req, res, next) => {
 router.put("/update/:id", (req, res, next) => {
   const { id } = req.params;
   req.body.shopItems = req.body.hangers;
-  console.log(req.body);
   Cart.findByIdAndUpdate(id, req.body)
     .then(() => {
       res.status(200).json({ message: `Cart ${id} updated` });

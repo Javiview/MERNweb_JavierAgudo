@@ -36,33 +36,45 @@ router.get("/", (req, res, next) => {
       res.status(500).json({ message: "Something went wrong" });
     });
 });
-router.get('/:id', (req, res, next) => {
-    const { id } = req.params;
-    Hangers.findById(id)
+router.get("/:id", (req, res, next) => {
+  const { id } = req.params;
+  Hangers.findById(id)
     .then(hanger => {
-      res.status(200).json(hanger)
+      res.status(200).json(hanger);
     })
-    .catch(error => res.status(500).json({ message: 'Hanger not found'}))
-  })
+    .catch(error => res.status(500).json({ message: "Hanger not found" }));
+});
 
 //update
-router.put('/:id', (req, res, next) => {
-    const { id } = req.params;
-    Hangers.findByIdAndUpdate(id, req.body)
+router.put("/update-hanger/:id", (req, res, next) => {
+  const { id } = req.params;
+  Hangers.findByIdAndUpdate(id, req.body)
     .then(() => {
-      res.status(200).json({ message: `Hanger ${id} updated` })
+      res.status(200).json({ message: `Hanger ${id} updated` });
     })
     .catch(error => {
-      res.status(500).json({ message:'Something went wrong' })
-    })
-  })
+      res.status(500).json({ message: "Something went wrong" });
+    });
+});
+
+router.put("/update", (req, res, next) => {
+  let idArray = [];
+
+  req.body.hangers.forEach(hanger => idArray.push(hanger._id));
+
+  idArray.forEach(hangerId =>
+    Hangers.findByIdAndUpdate(hangerId, { state: false }, { new: true })
+      .then(updatedHanger => console.log(updatedHanger))
+      .catch(err => console.log(err))
+  );
+});
 
 //delete
-router.delete('/:id', (req, res, next) => {
-    const { id } = req.params;
-    Hangers.findByIdAndDelete(id)
-    .then(() => res.status(200).json({message: `Hanger ${id} deleted`}))
-    .catch(error => res.status(500).json({ message: 'Something went wrong'}))
-  })
+router.delete("/:id", (req, res, next) => {
+  const { id } = req.params;
+  Hangers.findByIdAndDelete(id)
+    .then(() => res.status(200).json({ message: `Hanger ${id} deleted` }))
+    .catch(error => res.status(500).json({ message: "Something went wrong" }));
+});
 
-  module.exports = router;
+module.exports = router;

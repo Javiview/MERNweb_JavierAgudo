@@ -32,3 +32,20 @@
 .shop-cart-logo:hover {
   background: #292929;
 }
+.num-cart {
+  background: greenyellow;
+  color: black;
+  text-align: center;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 1.5em;
+  right: -1em;
+  border: 3px dashed #fcd303;
+  background-color: #292929;
+  color: white;
+  padding: 0.2rem 0.6rem;
+}
+.button-container {
+  display: inline-block;
+  position: relative;
+}
