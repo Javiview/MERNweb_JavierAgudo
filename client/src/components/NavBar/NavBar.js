@@ -113,12 +113,12 @@ export default class NavBar extends Component {
                           alt=""
                         />
                         {this.state.num !== 0 &&
-                        <div className="num-cart">{this.state.num}</div>}
+                        <div className="num-cart has-text-weight-semibold">{this.state.num}</div>}
                       </Link>
 
                       <div className="probando">
-                        <span className="prt">{this.props.name}</span>
-                        <span>{this.props.surname}</span>
+                        <span className="prt has-text-weight-bold is-capitalized">{this.props.name}</span>
+                        <span className="has-text-weight-bold is-capitalized">{this.props.surname}</span>
                       </div>
                       <Link to="/profile">
                         <img

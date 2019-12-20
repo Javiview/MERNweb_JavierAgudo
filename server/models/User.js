@@ -7,7 +7,7 @@ const userSchema = new Schema(
     surname: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true, minlength: 2 },
-    picture: { type: String, default: "https://res.cloudinary.com/dexfqvxax/image/upload/v1576187278/ResourcesIMPERIO/hanger_icon_n0lvyg.svg" }
+    picture: { type: String, default: "https://res.cloudinary.com/dexfqvxax/image/upload/v1576833874/ResourcesIMPERIO/user_default_cloth_fob5fv.jpg" }
   },
   {
     timestamps: true,

@@ -1,0 +1,14 @@
+.rented-conatiner{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #fcd303 ;
+    margin: 2rem auto ;
+    img{
+        width: 20rem;
+    }
+}
+.text-rented{
+    margin-bottom: 1rem;
+}

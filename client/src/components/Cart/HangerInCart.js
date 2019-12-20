@@ -26,19 +26,6 @@ export default class HangerInCart extends Component {
         );
       }
     });
-    // confirmAlert({
-    //   title: "¿Estas seguro?",
-    //   message: "¿Deseas eliminarlo de tu carrito?",
-    //   buttons: [
-    //     {
-    //       label: "Si",
-    //       onClick: () => this.props.deleteHangerInCart(this.props._id)
-    //     },
-    //     {
-    //       label: "No"
-    //     }
-    //   ]
-    // });
   }
   render() {
     const { name, images, price,} = this.props;

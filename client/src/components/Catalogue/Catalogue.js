@@ -49,7 +49,7 @@ export default class Catalogue extends Component {
       <React.Fragment>
         <div className="catalogue-container">
           <BackBtn {...this.props} />
-          <h2 className="title is-1 has-text-centered">Catálogo</h2>
+          <h2 className="title is-1 has-text-centered title-cat">Catálogo</h2>
           <div className="container search-bar-container">
             <input
               type="text"

@@ -11,12 +11,13 @@ export default class HangerCard extends Component {
             <React.Fragment>
             {state == true && 
             <React.Fragment>
-            <div className="container box">
+            <div className="container box card-one-container">
                 
                 <Link to={url}>
-                <img width="100px" src={images[0]} alt={name}/>
+                    <div className="card-one-container">
+                <img className="img-catlg" width="100px" src={images[0]} alt={name}/>
                 <h2>{name}</h2>
-                <h3>{type}</h3>
+                </div>
                 </Link>
                 
             </div>
@@ -24,15 +25,14 @@ export default class HangerCard extends Component {
             {state != true && 
              <React.Fragment>
             
-            <div className="container box">
+            <div className="container box card-one-container">
             <div className="rent"></div>
                 <Link to={url} className="card-position">
-                <img width="100px" src={images[0]} alt={name}/>
+                <div className="card-one-container">
+                <img className="img-catlg" width="100px" src={images[0]} alt={name}/>
                 <h2>{name}</h2>
-                <h3>{type}</h3>
-                </Link>
-                
-                
+                </div>
+                </Link>  
             </div>
             </React.Fragment>}
            </React.Fragment>

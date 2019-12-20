@@ -138,12 +138,12 @@ export default class SignUp extends Component {
             </div>
           </form>
         </div>
-        <GoogleLogin
+        {/* <GoogleLogin
                         clientId="XXXXXXXXXX"
                         buttonText="Login"
                         onSuccess={this.googleResponse}
                         onFailure={this.googleResponse}
-                    />
+                    /> */}
         {/* <form onSubmit={this.handleSignUp}>
           <label htmlFor="name">Name: </label>
           <input type="text" name="name" value={name} onChange={this.handleChange}/>

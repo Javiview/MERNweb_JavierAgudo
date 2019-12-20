@@ -51,9 +51,8 @@ export default class Cart extends Component {
       .catch(err => console.log(err));
   }
   deleteHangerInCart(id) {
-    this.cartService.delItemFromCart(id)
-    .then(cart => {
-      this.props.updateNumCart()
+    this.cartService.delItemFromCart(id).then(cart => {
+      this.props.updateNumCart();
       let hangers = cart.shopItems;
       this.setState({
         ...this.state,
@@ -102,30 +101,43 @@ export default class Cart extends Component {
   save(e) {
     e.preventDefault();
     confirmAlert({
-      title: "¿Estas seguro?",
-      message: "¿Deseas alquilar todos los articulos de tu carrito?",
-      buttons: [
-        {
-          label: "Si",
-          onClick: () => this.saveCart()
-        },
-        {
-          label: "No"
-        }
-      ]
+      customUI: ({ onClose }) => {
+        return (
+          <div className="notification is-warning box">
+            <h1 className="is-size-6">¿Estás seguro?</h1>
+            <p className="text-noti is-size-4">
+              ¿Deaseas alquilar todos los articulos de tu carrito?
+            </p>
+            <div className="btn-container-cart">
+              <button
+                className="button is-light is-medium"
+                onClick={() => {
+                  this.saveCart();
+                  onClose();
+                }}
+              >
+                Si!
+              </button>
+              <button className="button is-dark btn-yes" onClick={onClose}>
+                No
+              </button>
+            </div>
+          </div>
+        );
+      }
     });
   }
   saveCart() {
-    this.cartService.updateCart(this.state)
-    .then(() => {
-      this.hangerService.updateHanger(this.state.hangers);
-    })
-    .then(()=>{
-      this.state = this.initState;
-      this.props.cartRented()
-      this.props.history.push("/justrent");
-    })
-   
+    this.cartService
+      .updateCart(this.state)
+      .then(() => {
+        this.hangerService.updateHanger(this.state.hangers);
+      })
+      .then(() => {
+        this.state = this.initState;
+        this.props.cartRented();
+        this.props.history.push("/justrent");
+      });
   }
   componentDidMount() {
     this.sumTotalPrice();
@@ -140,13 +152,14 @@ export default class Cart extends Component {
     const { hangers } = this.state;
     return (
       <React.Fragment>
+        <BackBtn {...this.props} />
         {hangers.length === 0 && (
-          <div className="container box">
-            <BackBtn {...this.props} />
+          <div className="container box empty-cart">
             <img
-              src="https://res.cloudinary.com/dexfqvxax/image/upload/v1576596014/ResourcesIMPERIO/empty-cart-IMP_af6ktk.png"
+              src="https://res.cloudinary.com/dexfqvxax/image/upload/v1576840234/ResourcesIMPERIO/empty_cart_GIF_e6acvh.gif"
               alt="Empty-Cart"
             />
+            <h2 className="is-size-3 has-text-weight-bold">Upss . . . tu carrito esta vacio!</h2>
           </div>
         )}
         {hangers.length > 0 && (
@@ -163,7 +176,7 @@ export default class Cart extends Component {
               );
             })}
             <form className="box has-background-grey-dark">
-              <h3 className="has-text-centered has-text-white	">Alquilar:</h3>
+              <h3 className="has-text-centered has-text-white has-text-weight-bold	">Alquilar:</h3>
               <div className="cart-form">
                 <label htmlFor="fecha-inicio has-text-white">Desde:</label>
                 <input
@@ -180,14 +193,19 @@ export default class Cart extends Component {
                   onChange={e => this.setDateFinish(e)}
                 />
               </div>
-              <div className="cart-form">
-                <h4>Total: {this.sumTotalPrice()}</h4>
-                <h4>Días: {this.sumDays()}</h4>
+              <div className="cart-form-prc">
+                <h4 className="is-size-5">
+                  <span className="is-size-6">Total: </span>
+                  {this.sumTotalPrice()}
+                </h4>
+                <h4 className="is-size-5">
+                  <span className="is-size-6">Días:</span> {this.sumDays()}
+                </h4>
               </div>
               <div className="cart-form-btn">
                 <button
                   type="button"
-                  className="button is-warning"
+                  className="button is-warning is has-text-weight-bold"
                   onClick={e => {
                     this.save(e);
                   }}

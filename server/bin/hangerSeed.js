@@ -18,7 +18,7 @@ mongoose
 let hangers = [
   {
     name: "Tacones altos negros Louboutin",
-    type: "Tacon",
+    type: "Tacón",
     subType: ["Alto"],
     colors: ["Negro"],
     size: ["36", "37"],
@@ -45,7 +45,7 @@ let hangers = [
     ]
   },
   {
-    name: "Collar Edelweiss Eterna Eesmeralda y Diamantes",
+    name: "Collar Edelweiss Eterna Esmeralda y Diamantes",
     type: "Collar",
     subType: ["Esmeralda", "Diamantes", "Oro blanco"],
     colors: ["plata", "verde", "blanco"],

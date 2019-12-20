@@ -7,28 +7,51 @@
 }
 
 .delete:hover {
-  background: rgba($color: #e2c20e, $alpha: 0.5);
+  background: rgba($color: #fcd303, $alpha: 0.5);
 }
 .image-cart {
   border-radius: 50%;
 }
 .cart-form {
   display: flex;
+  justify-content: space-around;
+  margin: 1rem;
   color: white;
+  
 }
-.cart-form-btn{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.cart-form-prc{
+  display: flex;
+  justify-content: space-around;
+  margin: 1rem;
+  color: white;
+  border-radius: 15px;
+  border: 3px solid #fcd303;
 }
-.text-noti{
-  margin-bottom: 1rem;
-}
-.btn-container-cart{
+.cart-form-btn {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.btn-yes{
+.text-noti {
+  margin-bottom: 1rem;
+}
+.btn-container-cart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-yes {
   margin-left: 1rem;
 }
+.fecha-inp{
+  margin-right: 1rem;
+}
+.empty-cart{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom:2rem ;
+  background: #fcd303;
+}
+
