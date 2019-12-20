@@ -196,7 +196,7 @@ export default class Cart extends Component {
               <div className="cart-form-prc">
                 <h4 className="is-size-5">
                   <span className="is-size-6">Total: </span>
-                  {this.sumTotalPrice()}
+                  {this.sumTotalPrice()}€
                 </h4>
                 <h4 className="is-size-5">
                   <span className="is-size-6">Días:</span> {this.sumDays()}
